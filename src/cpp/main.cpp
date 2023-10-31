@@ -1,10 +1,11 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <algorithm>
+#include <queue>
+
 using namespace std;
 
-const int INF = 1e9;
+const int inf = 1e9;
 
 vector<vector<int>> graph;
 vector<vector<int>> forbidden;
@@ -12,15 +13,15 @@ vector<int> dist;
 vector<int> pred;
 vector<int> path;
 
-bool isValidTriple(int a, int b, int c) {
+bool isValidTriple(int x, int y, int z) {
     for (int i = 0; i < forbidden.size(); i++) {
-        if (forbidden[i][0] == a && forbidden[i][1] == b && forbidden[i][2] == c)
+        if (forbidden[i][0] == x && forbidden[i][1] == y && forbidden[i][2] == z)
             return false;
     }
     return true;
 }
 
-void shortestPath(int source, int destination) {
+void shortestWay(int source, int destination) {
     dist[source] = 0;
     pred[source] = -1;
 
@@ -28,27 +29,27 @@ void shortestPath(int source, int destination) {
     q.push(source);
 
     while (!q.empty()) {
-        int curr = q.front();
+        int current = q.front();
         q.pop();
 
-        for (int neighbor : graph[curr]) {
-            if (dist[neighbor] == INF) {
-                dist[neighbor] = dist[curr] + 1;
-                pred[neighbor] = curr;
-                q.push(neighbor);
+        for (int beside : graph[current]) {
+            if (dist[beside] == inf) {
+                dist[beside] = dist[current] + 1;
+                pred[beside] = current;
+                q.push(beside);
             }
         }
     }
 
-    if (dist[destination] == INF) {
+    if (dist[destination] == inf) {
         cout << -1 << endl;
         return;
     }
 
-    int curr = destination;
-    while (curr != -1) {
-        path.push_back(curr);
-        curr = pred[curr];
+    int current = destination;
+    while (current != -1) {
+        path.push_back(current);
+        current = pred[current];
     }
 
     reverse(path.begin(), path.end());
@@ -65,24 +66,24 @@ int main() {
     cin >> n >> m >> k;
 
     graph.resize(n + 1);
-    dist.assign(n + 1, INF);
+    dist.assign(n + 1, inf);
     pred.assign(n + 1, -1);
 
     for (int i = 0; i < m; i++) {
-        int x, y;
-        cin >> x >> y;
-        graph[x].push_back(y);
-        graph[y].push_back(x);
+        int a, b;
+        cin >> a >> b;
+        graph[a].push_back(b);
+        graph[b].push_back(a);
     }
 
     forbidden.resize(k);
     for (int i = 0; i < k; i++) {
-        int a, b, c;
-        cin >> a >> b >> c;
-        forbidden[i] = {a, b, c};
+        int x, y, z;
+        cin >> x >> y >> z;
+        forbidden[i] = {x, y, z};
     }
 
-    shortestPath(1, n);
+    shortestWay(1, n);
 
     return 0;
 }
