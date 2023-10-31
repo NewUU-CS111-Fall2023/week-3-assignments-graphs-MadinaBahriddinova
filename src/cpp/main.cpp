@@ -1,9 +1,3 @@
-/*
- * Author:
- * Date:
- * Name:
- */
-
 #include <iostream>
 #include "task_1.h"
 
